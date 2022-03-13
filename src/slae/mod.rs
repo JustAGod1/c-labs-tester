@@ -214,16 +214,6 @@ impl TestsSupplier<Matrix, Answer> for SLAESupplier {
         let mut result = TestsNode::new("root");
 
         self.hand_made(result.child("hand-made"));
-        self.random_many_answer(
-            result.child("random many answer long"),
-            rng,
-            40,
-            5..6,
-            -100..100,
-            1..30,
-            4,
-            10
-        );
         self.random_one_answer(
             result.child("random one answer simple"),
             rng,
@@ -274,6 +264,16 @@ impl TestsSupplier<Matrix, Answer> for SLAESupplier {
             1..2,
             2,
             2
+        );
+        self.random_many_answer(
+            result.child("random many answer long"),
+            rng,
+            40,
+            5..6,
+            -100..100,
+            1..30,
+            4,
+            10
         );
         result
     }
@@ -344,15 +344,9 @@ impl SLAESupplier {
             for i in 0..matrix.n-1 {
                 matrix.set_at(i, matrix.n, self.non_zero(rng, answer_range.clone()));
             }
-            if i == 32 {
-                println!("{}", matrix);
-            }
-
 
             let sums = matrix.n * max_sums;
-            println!("{}", matrix);
             shuffle_matrix(&mut matrix, rng, max_factor, sums);
-            println!("{}", matrix);
 
             node.add_test(Test::new(matrix, Answer::MANY));
         }
